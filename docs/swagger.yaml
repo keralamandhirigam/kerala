@@ -1,0 +1,187 @@
+definitions:
+  model.CreateWitchcraft:
+    properties:
+      address:
+        type: string
+      balanceAmount:
+        type: number
+      name:
+        type: string
+      payment:
+        type: integer
+      place:
+        type: string
+      remarks:
+        type: string
+      visitorsDuration:
+        type: string
+      witchcraftId:
+        type: string
+    type: object
+  model.UpdateWitchcraft:
+    properties:
+      VisitorsDuration:
+        type: string
+      address:
+        type: string
+      balanceAmount:
+        type: number
+      name:
+        type: string
+      payment:
+        type: integer
+      place:
+        type: string
+      remarks:
+        type: string
+    type: object
+  model.Witchcraft:
+    properties:
+      VisitorsDuration:
+        type: string
+      address:
+        type: string
+      balanceAmount:
+        type: number
+      name:
+        type: string
+      payment:
+        type: integer
+      place:
+        type: string
+      remarks:
+        type: string
+      witchcraftId:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/witchcraft:
+    get:
+      consumes:
+      - application/json
+      description: Get All Requirments
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Witchcraft'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get All Requirments
+      tags:
+      - Witchcraft
+    post:
+      consumes:
+      - application/json
+      description: Create New Requirment
+      parameters:
+      - description: Create Request
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateWitchcraft'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create New Requirment
+      tags:
+      - Witchcraft
+  /api/v1/witchcraft/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Record By ID
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Delete Record By ID
+      tags:
+      - Witchcraft
+    get:
+      consumes:
+      - application/json
+      description: Get Requirment
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Witchcraft'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get  Requirment
+      tags:
+      - Witchcraft
+    put:
+      consumes:
+      - application/json
+      description: Update Requirment
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Create Request
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateWitchcraft'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Update Requirment
+      tags:
+      - Witchcraft
+swagger: "2.0"
