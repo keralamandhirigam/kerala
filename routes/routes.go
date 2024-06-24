@@ -12,7 +12,6 @@ import (
 func RouteGroup(app *fiber.App) fiber.Router {
 	group := app.Group("/api/v1/witchcraft")
 	return group
-
 }
 
 func Init() error {
@@ -31,10 +30,10 @@ func Init() error {
 	r.Get("/:id", handler.GetWitchcraftById)
 	r.Delete("/:id", handler.DeleteWitchcraftById)
 
-	err = app.Listen(":8080")
-	if err != nil {
-		return err
-	}
+	// Remove the app.Listen line
+	// err = app.Listen(":8080")
+	// if err != nil {
+	// 	return err
+	// }
 	return nil
-
 }
