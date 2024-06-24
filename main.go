@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"fmt"
+
 	// "kerala/witchcraft/routes"
 	"log"
 	"net/http"
@@ -25,10 +26,12 @@ func main() {
 		fmt.Fprintf(w, "hello World")
 	})
 	_, err := MongoConnection()
-	if err != nil{
+	if err != nil {
 		log.Fatal(err)
-	}else{
-		fmt.Println( "connection success")
+	} else {
+		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprintf(w, "connection Success")
+		})
 	}
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
