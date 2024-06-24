@@ -22,9 +22,6 @@ import (
 
 func main() {
 	http.HandleFunc("/", HelloServer)
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "hello World")
-	})
 	_, err := MongoConnection()
 	if err != nil {
 		log.Fatal(err)
@@ -36,7 +33,7 @@ func main() {
 	log.Fatal(http.ListenAndServe("kerala-34uxbqzd8-alshifas-projects", nil))
 }
 func HelloServer(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, %s!", r.URL.Path[1:])
+	fmt.Fprintf(w, "Hello Andrews")
 }
 
 func MongoConnection() (*mongo.Client, error) {
