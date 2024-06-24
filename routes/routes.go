@@ -9,31 +9,19 @@ import (
 	fiberSwagger "github.com/swaggo/fiber-swagger"
 )
 
-func RouteGroup(app *fiber.App) fiber.Router {
+func RouteGroup(app *fiber.App) {
 	group := app.Group("/api/v1/witchcraft")
-	return group
-}
 
-func Init() error {
-	app := fiber.New()
-	r := RouteGroup(app)
 	db, err := database.MongoConnection()
 	if err != nil {
-		return err
+		panic(err) // For simplicity, panic on error
 	}
-	handler := handler.NewHandler(db)
+	h := handler.NewHandler(db)
 
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
-	r.Post("/", handler.CreateNewWitchcraft)
-	r.Put("/:id", handler.UpdateWitchcraft)
-	r.Get("/", handler.GetAllWitchcrafts)
-	r.Get("/:id", handler.GetWitchcraftById)
-	r.Delete("/:id", handler.DeleteWitchcraftById)
-
-	// Remove the app.Listen line
-	// err = app.Listen(":8080")
-	// if err != nil {
-	// 	return err
-	// }
-	return nil
+	group.Post("/", h.CreateNewWitchcraft)
+	group.Put("/:id", h.UpdateWitchcraft)
+	group.Get("/", h.GetAllWitchcrafts)
+	group.Get("/:id", h.GetWitchcraftById)
+	group.Delete("/:id", h.DeleteWitchcraftById)
 }

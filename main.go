@@ -1,61 +1,33 @@
-package handler
+package main
 
 import (
-	"context"
-	"fmt"
-
-	// "kerala/witchcraft/routes"
+	"kerala/witchcraft/routes"
 	"log"
 	"net/http"
 
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"github.com/gofiber/adaptor/v2"
+	"github.com/gofiber/fiber/v2"
 )
 
-// func handler(w http.ResponseWriter, r *http.Request) {
-// 	err := routes.Init()
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// }
+// Create a global Fiber app instance
+var app *fiber.App
+
+func init() {
+	// Initialize the Fiber app
+	app = fiber.New()
+
+	// Initialize routes
+	routes.RouteGroup(app)
+}
+
+// Handler is the entry point for Vercel
+func Handler(w http.ResponseWriter, r *http.Request) {
+	// Use the Fiber adaptor to handle the request
+	adaptor.FiberApp(app)(w, r)
+}
 
 func main() {
-	http.HandleFunc("/", HelloServer)
-	_, err := MongoConnection()
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			fmt.Fprintf(w, "connection Success")
-		})
-	}
-	log.Fatal(http.ListenAndServe("kerala-34uxbqzd8-alshifas-projects", nil))
-}
-func HelloServer(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello Andrews")
-}
-
-func MongoConnection() (*mongo.Client, error) {
-	opts := options.Client()
-	opts.ApplyURI("mongodb+srv://andreamose988:E6xYOfUn0erPPQYa@cluster0.4wntr2x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-
-	client, err := mongo.NewClient(opts)
-	if err != nil {
-		return nil, err
-	}
-
-	err = client.Connect(context.TODO())
-	if err != nil {
-		return nil, err
-	} else {
-		fmt.Println("connection success")
-	}
-
-	err = client.Ping(context.TODO(), readpref.PrimaryPreferred())
-	if err != nil {
-		return nil, err
-	}
-
-	return client, nil
+	// For local testing
+	http.HandleFunc("/", Handler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
